@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.graphics.rotationMatrix
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -39,27 +40,26 @@ class SplashViewModel@Inject constructor():ViewModel(),LifecycleObserver {
             isLoading = true
         )
         val userApi = NetworkModule.getInstance().create(UserApi::class.java)
-        viewModelScope.launch {
-            val result = userApi.getUserDetail()
-            if(result.isSuccessful)
-            {
-                result.let {
-                    withContext(Dispatchers.IO)
-                    {
-                        val roomDatabase = NetworkModule.getInstanceOfRoomDataBase(context)
-                        if (roomDatabase.userDao().getAll().isEmpty()) {
-                            for (i in it.body()!!.iterator()) {
-                                roomDatabase.userDao().insert(i)
+        viewModelScope.launch(Dispatchers.IO) {
+            val roomDatabase = NetworkModule.getInstanceOfRoomDataBase(context)
+            if (roomDatabase.userDao().getAll().isEmpty()) {
+                val result = userApi.getUserDetail()
+                if (result.isSuccessful) {
+                    result.let {
+                            if (roomDatabase.userDao().getAll().isEmpty()) {
+                                for (i in it.body()!!.iterator()) {
+                                    roomDatabase.userDao().insert(i)
+                                }
                             }
-                        }
                     }
-                    delay(1000)
-                    navHostController.navigate(Routes.LIST_SCREEN)
+                } else {
+                    effects.send(SplashContract.Effect.MoveToDownTime)
                 }
             }
-            else
+            delay(1000)
+            withContext(Dispatchers.Main)
             {
-                effects.send(SplashContract.Effect.MoveToDownTime)
+                navHostController.navigate(Routes.LIST_SCREEN)
             }
         }
         state=state.copy(
