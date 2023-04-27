@@ -8,7 +8,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.example.userapp.R
 import com.example.userapp.navigation.Routes
 import com.example.userapp.ui.screens.splash.SplashContract
 import com.example.userapp.ui.screens.splash.SplashViewModel
@@ -40,8 +42,8 @@ fun SplashScreen(navHostController: NavHostController,viewModel: SplashViewModel
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        CircularProgressIndicator(modifier=Modifier.size(UserTheme.dimens.x_50_dp))
-        Spacer(Modifier.height(UserTheme.dimens.x_16_dp))
-        Text("Loading...")
+        CircularProgressIndicator(modifier=Modifier.size(UserTheme.dimens.x_2_50))
+        Spacer(Modifier.height(UserTheme.dimens.x_20_dp))
+        Text(stringResource(R.string.loading))
     }
 }

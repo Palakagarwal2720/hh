@@ -25,7 +25,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel@Inject constructor():ViewModel(),LifecycleObserver {
-    var state by mutableStateOf(SplashContract.State())
     var effects = Channel<SplashContract.Effect>(Channel.UNLIMITED)
         private set
     init {
@@ -33,12 +32,11 @@ class SplashViewModel@Inject constructor():ViewModel(),LifecycleObserver {
             effects.send(SplashContract.Effect.LoadData)
         }
     }
+    /**
+     *  To load data from network call if not present in database.
+     */
     fun loadData(context: Context,navHostController: NavHostController)
     {
-        Log.d("launch ","")
-        state=state.copy(
-            isLoading = true
-        )
         val userApi = NetworkModule.getInstance().create(UserApi::class.java)
         viewModelScope.launch(Dispatchers.IO) {
             val roomDatabase = NetworkModule.getInstanceOfRoomDataBase(context)
@@ -62,9 +60,6 @@ class SplashViewModel@Inject constructor():ViewModel(),LifecycleObserver {
                 navHostController.navigate(Routes.LIST_SCREEN)
             }
         }
-        state=state.copy(
-            isLoading = false
-        )
     }
 
 }

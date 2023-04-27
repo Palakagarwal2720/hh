@@ -1,18 +1,14 @@
 package com.example.userapp.ui.screens.list
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.graphics.rotationMatrix
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.userapp.data.FavoriteUser
-import com.example.userapp.data.User
 import com.example.userapp.data.di.NetworkModule
-import com.example.userapp.ui.screens.splash.SplashContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -30,6 +26,9 @@ class ListViewModel@Inject constructor():ViewModel() {
             effects.send(ListContract.Effect.LoadData)
         }
     }
+    /**
+     *  To load data from room database.
+     */
     fun loadData(context:Context)
     {
         viewModelScope.launch(Dispatchers.IO)
@@ -45,6 +44,9 @@ class ListViewModel@Inject constructor():ViewModel() {
             loadListOfFavoriteUser(context)
         }
     }
+    /**
+     *  To load list of favorite user from room database.
+     */
     fun loadListOfFavoriteUser(context: Context)
     {
         viewModelScope.launch (Dispatchers.IO){
@@ -58,6 +60,9 @@ class ListViewModel@Inject constructor():ViewModel() {
             }
         }
     }
+    /**
+     *  To add user in list of favorite in room database favorite table.
+     */
     fun addFavoriteUser(favoriteUser: FavoriteUser,context: Context) {
         viewModelScope.launch(Dispatchers.IO)
         {
@@ -80,7 +85,6 @@ class ListViewModel@Inject constructor():ViewModel() {
                         .show()
                 }
             }
-            Log.d("list of favorite user",""+roomDatabase.favoriteDao().getAll().asList())
         }
     }
 }

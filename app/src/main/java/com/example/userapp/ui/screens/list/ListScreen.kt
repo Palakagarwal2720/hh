@@ -21,6 +21,7 @@ import com.example.userapp.navigation.Routes
 import com.example.userapp.ui.theme.DarkViolet
 import com.example.userapp.ui.theme.OsloGrey
 import com.example.userapp.ui.theme.UserTheme
+import com.example.userapp.util.Constants
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -103,6 +104,9 @@ fun ListScreen(navHostController: NavHostController,viewModel: ListViewModel) {
         }
     }
 }
+/**
+ *  To display user screen fragment.
+ */
 @Composable
 fun UserScreen(viewModel: ListViewModel,navHostController:NavHostController,search: String)
 {
@@ -156,6 +160,9 @@ fun UserScreen(viewModel: ListViewModel,navHostController:NavHostController,sear
         }
     }
 }
+/**
+ *  To display favorite screen fragment.
+ */
 @Composable
 fun FavoriteScreen(viewModel: ListViewModel,search: String)
 {
@@ -187,12 +194,15 @@ fun FavoriteScreen(viewModel: ListViewModel,search: String)
         }
     }
 }
+/**
+ *  To display tab layout.
+ */
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabLayout(pagerState: PagerState)
 {
     val listOfTabs = listOf(
-        "User","Favorite"
+        Constants.USER,Constants.FAVORITE
     )
     val scope= rememberCoroutineScope()
     TabRow(

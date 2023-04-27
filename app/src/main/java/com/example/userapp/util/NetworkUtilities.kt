@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 
 sealed class ConnectionState {
     object Available : ConnectionState()

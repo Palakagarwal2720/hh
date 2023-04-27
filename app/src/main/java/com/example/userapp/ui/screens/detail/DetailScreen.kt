@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.userapp.R
 import com.example.userapp.data.User
@@ -23,11 +24,15 @@ import com.example.userapp.ui.theme.UserTheme
 
 @Composable
 fun DetailScreen(navHostController: NavHostController,user: User) {
-    Column(modifier=Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween)
+    Column(modifier=Modifier.fillMaxSize())
     {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(UserTheme.dimens.x_20_dp)
+                .weight(1f),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         )
         {
             Box(
@@ -42,29 +47,17 @@ fun DetailScreen(navHostController: NavHostController,user: User) {
                     contentDescription = ""
                 )
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = UserTheme.dimens.x_24_dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+
+            Text(
+                text = user.name ?: "",
+                style = MaterialTheme.typography.h6,
+                color = Color.Black
             )
-            {
-                Column(
-                    modifier = Modifier.weight(1f)
-                )
-                {
-                    Text(
-                        text = user.name ?: "",
-                        style = MaterialTheme.typography.h6,
-                        color = Color.Black
-                    )
-                    Text(
-                        text = user.username ?: "",
-                        style = MaterialTheme.typography.subtitle2,
-                        color = OsloGrey
-                    )
-                }
-            }
+            Text(
+                text = user.username ?: "",
+                style = MaterialTheme.typography.subtitle2,
+                color = OsloGrey
+            )
         }
         Button(
             modifier = Modifier
@@ -77,7 +70,7 @@ fun DetailScreen(navHostController: NavHostController,user: User) {
                 contentColor = Color.White
             )
         ) {
-            Text("BACK", style = MaterialTheme.typography.button)
+            Text(stringResource(R.string.back), style = MaterialTheme.typography.button)
         }
     }
 }
